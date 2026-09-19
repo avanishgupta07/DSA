@@ -11,10 +11,11 @@ public:
         }
         if (yCenter < y1) {
             y = y1;
-        } else if
-            (yCenter > y2) { y = y2; }
-        int dx = xCenter - x;
-        int dy = yCenter - y;
-        return dx * dx + dy * dy <= radius * radius;
+        } else if (yCenter > y2) {
+            y = y2;
+        }
+
+        return  sqrt((xCenter - x )* (xCenter - x) + (yCenter - y) * (yCenter - y ))<=
+               radius;
     }
 };
