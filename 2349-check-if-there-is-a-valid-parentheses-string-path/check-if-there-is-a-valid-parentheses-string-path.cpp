@@ -1,0 +1,63 @@
+class Solution {
+public:
+
+    vector<vector<vector<int>>> dp;
+
+    bool solve(vector<vector<char>>& grid,
+               int i, int j, int balance) {
+
+        if (grid[i][j] == '(')
+            balance++;
+        else
+            balance--;
+
+        if (balance < 0)
+            return false;
+
+        if (balance >= dp[0][0].size())
+            return false;
+
+        if (dp[i][j][balance] != -1)
+            return dp[i][j][balance];
+
+        if (i == grid.size() - 1 &&
+            j == grid[0].size() - 1) {
+
+            return dp[i][j][balance] = (balance == 0);
+        }
+
+        if (j + 1 < grid[0].size()) {
+            if (solve(grid, i, j + 1, balance))
+                return dp[i][j][balance] = 1;
+        }
+
+        if (i + 1 < grid.size()) {
+            if (solve(grid, i + 1, j, balance))
+                return dp[i][j][balance] = 1;
+        }
+
+        return dp[i][j][balance] = 0;
+    }
+
+    bool hasValidPath(vector<vector<char>>& grid) {
+
+        int n = grid.size();
+        int m = grid[0].size();
+
+        if ((n + m - 1) % 2 == 1)
+            return false;
+
+        if (grid[0][0] == ')')
+            return false;
+
+        dp = vector<vector<vector<int>>>(
+            n,
+            vector<vector<int>>(
+                m,
+                vector<int>(n + m + 1, -1)
+            )
+        );
+
+        return solve(grid, 0, 0, 0);
+    }
+};
